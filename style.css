@@ -1,0 +1,213 @@
+/* Add your CSS here */
+
+/* Set the background color of the whole page to a light industrial grey that fades to a much darker grey */
+/* The gradient now has more contrast for a stronger fade effect */
+body {
+  background: linear-gradient(to bottom right, #f0f0f0, #888888); /* More prominent light-to-dark grey */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Center the header content */
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Use flexbox to center and space the header content vertically */
+header > div {
+  display: flex;                /* Use flexbox for header content */
+  flex-direction: column;       /* Stack items vertically */
+  align-items: center;          /* Center items horizontally */
+  gap: 16px;                    /* Space between header elements */
+  max-width: 600px;             /* Limit width for better readability */
+  margin: 0 auto;               /* Center header content */
+}
+
+/* Make the Intel Logo smaller and center it */
+header img {
+  display: block;           /* Makes centering work */
+  margin: 0 auto 16px auto; /* Centers the image and adds space below */
+  width: 120px;             /* Sets a smaller width for the logo */
+  height: auto;             /* Keeps the image ratio */
+}
+
+/* Add a gradient color effect to the main heading */
+/* This uses a dark grey gradient so the heading stands out */
+header h1 {
+  background: linear-gradient(to right, #444444, #222222); /* Dark grey gradient */
+  -webkit-background-clip: text; /* Makes the gradient apply to the text */
+  -webkit-text-fill-color: transparent; /* Makes the text show the gradient */
+  background-clip: text; /* For other browsers */
+  color: transparent; /* Hide the original color */
+}
+
+/* Style for the timeline section */
+section {
+  display: flex;          /* Use flexbox to arrange cards */
+  flex-direction: row;    /* Arrange cards horizontally by default */
+  gap: 32px;              /* Space between cards */
+  overflow-x: auto;       /* Enable horizontal scrolling */
+  padding: 20px;
+  margin: 32px 0 24px 0;
+  scrollbar-width: thin;
+}
+
+/* Make each card wider on small screens and stack vertically */
+@media (max-width: 700px) {
+  section {
+    flex-direction: column;    /* Stack cards vertically */
+    align-items: center;       /* Center cards horizontally */
+    gap: 24px;                 /* Slightly less gap for mobile */
+    padding: 12px;
+  }
+  section > div {
+    min-width: 90vw;           /* Make cards almost as wide as the screen */
+    max-width: 95vw;
+    width: 100%;
+  }
+}
+
+/* Style for each card */
+/* Use a blue gradient background that gets darker for each card using nth-child */
+section > div {
+  background: linear-gradient(135deg, #e3f2fd 60%, #90caf9 100%); /* Default blue gradient for the first card */
+  border: 1px solid #b3e5fc;  /* Light blue border */
+  border-radius: 10px;         /* Rounded corners */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Soft shadow */
+  min-width: 250px;            /* Minimum width for each card */
+  max-width: 250px;            /* Maximum width for each card */
+  padding: 16px;
+  flex-shrink: 0;              /* Prevent cards from shrinking */
+  text-align: center;
+  position: relative; /* Needed for overlay positioning */
+  cursor: pointer;    /* Shows pointer on hover */
+  overflow: hidden;   /* Ensures overlay stays inside card */
+}
+
+/* Second card: slightly darker blue */
+section > div:nth-child(2) {
+  background: linear-gradient(135deg, #bbdefb 60%, #64b5f6 100%);
+}
+
+/* Third card: more blue */
+section > div:nth-child(3) {
+  background: linear-gradient(135deg, #90caf9 60%, #42a5f5 100%);
+}
+
+/* Fourth card: even deeper blue */
+section > div:nth-child(4) {
+  background: linear-gradient(135deg, #64b5f6 60%, #2196f3 100%);
+}
+
+/* Fifth card: darker blue */
+section > div:nth-child(5) {
+  background: linear-gradient(135deg, #42a5f5 60%, #1976d2 100%);
+}
+
+/* Sixth card: deep blue */
+section > div:nth-child(6) {
+  background: linear-gradient(135deg, #2196f3 60%, #1565c0 100%);
+}
+
+/* Seventh card: even deeper blue */
+section > div:nth-child(7) {
+  background: linear-gradient(135deg, #1976d2 60%, #1565c0 100%);
+}
+
+/* Eighth card: dark blue, but not too dark for readability */
+section > div:nth-child(8) {
+  background: linear-gradient(135deg, #1565c0 60%, #1976d2 100%);
+}
+
+/* Ninth card: darkest blue, but still readable */
+section > div:nth-child(9) {
+  background: linear-gradient(135deg, #1976d2 60%, #0d47a1 100%);
+}
+
+/* Make images fit nicely in cards */
+section > div img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Hide the card's paragraph by default (the info under the image) */
+section > div p {
+  display: none; /* Hide the info text */
+}
+
+/* Show the paragraph when the card is hovered */
+section > div:hover p {
+  display: block;
+  background: linear-gradient(
+    135deg,
+    #1976d2 80%,
+    #42a5f5 100%
+  );
+  color: #0d2357; /* Dark blue text for overlay */
+  position: absolute; /* Position over the card */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0; /* Remove default margin */
+  padding: 28px 16px 16px 16px; /* More padding for readability */
+  border-radius: 14px; /* Slightly more rounded corners */
+  display: flex; /* Center text vertically and horizontally */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.08em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 24px rgba(25, 118, 210, 0.18); /* Soft blue shadow */
+  border: 2px solid #fff; /* White border for pop effect */
+  z-index: 2; /* Make sure overlay is above other content */
+  box-sizing: border-box;
+  transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+}
+
+/* Also, make the card itself pop a bit more on hover */
+section > div:hover {
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.22);
+  border-color: #1976d2;
+  transform: translateY(-4px) scale(1.03);
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+/* Make sure the page always fills the viewport and the footer stays at the bottom */
+/* This is a simple way for beginners using flexbox on the body */
+html, body {
+  height: 100%; /* Make html and body take full height */
+}
+
+/* Use flexbox to push footer to the bottom if content is short */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Minimum height is full viewport */
+}
+
+/* The main content (everything except footer) should grow to fill space */
+body > *:not(footer) {
+  flex: 1 0 auto;
+}
+
+/* Footer stays at the bottom */
+footer {
+  flex-shrink: 0;
+  margin-top: 32px;             /* Space above the footer */
+}
+
+/* Remove default margin from the last element in the body to eliminate space under the footer */
+body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Center and space the timeline instruction message */
+body > p {
+  text-align: center;
+  margin: 16px 0 0 0;           /* Space above and below the message */
+  font-size: 1.08em;
+  color: #333;
+}

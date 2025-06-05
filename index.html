@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intel: Sustainability Through the Ages</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Show on small screens, hide on large screens */
+    .show-mobile {
+      display: block;
+    }
+    .show-desktop {
+      display: none;
+    }
+    @media (min-width: 768px) {
+      /* Hide on small, show on large screens */
+      .show-mobile {
+        display: none;
+      }
+      .show-desktop {
+        display: block;
+      }
+    }
+
+    /* ====== Header Styling Starts Here ====== */
+    header {
+      /* Match header background to the new darker fade */
+      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
+      padding: 20px 0 12px 0; /* Less space above and below */
+      text-align: center;
+      border-bottom: 2px solid #b6d0f7; /* Lighter blue border */
+      box-shadow: 0 2px 8px rgba(100, 150, 200, 0.07); /* Softer shadow */
+    }
+    header img {
+      /* Make the logo larger on all screens */
+      width: 160px;
+      max-width: 80vw; /* Responsive: never bigger than 80% of the screen width */
+      margin-bottom: 2px; /* Decreased space below logo */
+      height: auto; /* Keep aspect ratio */
+      /* Add a little margin for breathing room */
+      margin-top: 4px;
+    }
+    /* On small screens, make the logo a bit smaller for better fit */
+    @media (max-width: 500px) {
+      header img {
+        width: 110px;
+        max-width: 90vw;
+        margin-bottom: 2px; /* Also decrease on small screens */
+      }
+    }
+    header h1 {
+      /* Main heading is larger and responsive */
+      font-size: 2.2em;
+      /* Use a blue gradient inside the text */
+      background: linear-gradient(90deg, #60a5fa 0%, #2563eb 100%);
+      -webkit-background-clip: text; /* For Safari/Chrome */
+      -webkit-text-fill-color: transparent; /* For Safari/Chrome */
+      background-clip: text; /* Standard property */
+      color: transparent; /* Hide normal color so gradient shows */
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-shadow: none; /* Remove shadow so gradient is clear */
+      white-space: normal;
+    }
+    /* Make the heading even bigger and force one line on larger screens */
+    @media (min-width: 768px) {
+      header h1 {
+        font-size: 3.2em;
+        white-space: nowrap;
+      }
+    }
+    header p {
+      /* Softer color for the subheading */
+      color: #3b4252;
+      font-size: 1.05em; /* Slightly smaller for tightness */
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 14px 20px; /* More padding for emphasis */
+      background: #f8fafc; /* Softer background */
+      border-left: 4px solid #93c5fd; /* Lighter blue bar */
+      border-radius: 14px; /* Rounded corners for a friendly look */
+      box-shadow: 0 2px 8px rgba(100, 150, 200, 0.04); /* Soft shadow */
+    }
+    /* ====== Header Styling Ends Here ====== */
+
+    /* ====== Timeline Styling Starts Here ====== */
+    .timeline-container {
+      /* Match timeline background to the new darker fade */
+      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px; /* Less space between cards */
+      padding: 18px 0 18px 24px; /* Less padding above, below, and left */
+      justify-content: flex-start;
+    }
+    /* On small screens, stack cards in a column and center them */
+    @media (max-width: 600px) {
+      .timeline-container {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center;    /* Center cards horizontally */
+        padding: 12px 0;        /* Less padding for small screens */
+        gap: 16px;              /* A bit more space between cards vertically */
+      }
+      .card {
+        min-width: 90vw;        /* Make cards fit nicely on small screens */
+        max-width: 400px;       /* Prevent cards from being too wide */
+      }
+    }
+    .card {
+      scroll-snap-align: center;
+      min-width: 340px;
+      background: transparent;
+      position: relative;
+      border-radius: 18px; /* More rounded corners */
+      box-shadow: 0 4px 16px rgba(100, 150, 200, 0.10); /* Softer shadow */
+      transition: 
+        transform 0.3s, 
+        box-shadow 0.3s; /* Smooth transform and shadow for hover effect */
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.025); /* Lift and slightly enlarge card on hover */
+      box-shadow: 0 12px 32px rgba(100, 150, 200, 0.18), 0 2px 8px rgba(0,0,0,0.08); /* Stronger blue shadow on hover */
+    }
+    .card img {
+      width: 100%; /* Full width images */
+      height: 170px; /* Slightly less tall for a softer look */
+      object-fit: cover; /* Crop images to fill the area without stretching */
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+    }
+    .overlay {
+      position: absolute; /* Position overlay text */
+      top: 0; /* Align to top */
+      left: 0; /* Align to left */
+      right: 0; /* Align to right */
+      bottom: 0; /* Align to bottom */
+      display: flex; /* Flexbox for centering */
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+      background: rgba(59, 130, 246, 0.7); /* Softer blue overlay */
+      color: #fff; /* White text color */
+      font-size: 1.1em; /* Larger font size */
+      padding: 16px; /* Padding around text */
+      opacity: 0; /* Hidden by default */
+      border-radius: 18px;
+      transition: opacity 0.3s; /* Smooth opacity transition */
+    }
+    .card:hover .overlay {
+      opacity: 1; /* Show overlay on hover */
+    }
+    .card-content {
+      /* 
+        This overlay keeps text readable on the gradient.
+        You can adjust the opacity for more or less white.
+      */
+      background: rgba(255,255,255,0.97); /* Slightly more opaque for softness */
+      border-radius: 18px;
+      padding: 18px 16px 16px 16px;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 1px 4px rgba(100, 150, 200, 0.06);
+    }
+    .card-content h2 {
+      color: #2563eb; /* Soft blue for year */
+      margin: 0 0 4px 0;
+      font-size: 1.3em;
+    }
+    .card-content h3 {
+      color: #374151; /* Soft dark for title */
+      margin: 0 0 8px 0;
+      font-size: 1.1em;
+    }
+    .card-content p {
+      color: #475569; /* Softer dark for text */
+      font-size: 1em;
+      margin: 0;
+    }
+    /* ====== Timeline Styling Ends Here ====== */
+
+    /* ====== Footer Styling Starts Here ====== */
+    footer {
+      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
+      color: #64748b;
+      padding: 10px 0 8px 0; /* Less space above and below */
+      font-size: 1em;
+      border-top: 1px solid #dbeafe;
+      margin-top: 16px; /* Less space above footer */
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+    /* ====== Footer Styling Ends Here ====== */
+
+    body {
+      /* Darker background with a more prominent fade */
+      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Hero Section -->
+  <header>
+    <div>
+      <!-- Ask Copilot to teach you about `.svg` 🙂 -->
+      <img src="img/intel-header-logo.svg" alt="Intel Logo" />
+      <!-- Main Heading -->
+      <h1>
+        Sustainability Through the Ages
+      </h1>
+
+      <!-- Subheading / Description -->
+      <p>
+        Explore Intel's journey through time, discovering how our commitment
+        to innovation has shaped a more sustainable future for technology 
+        and our planet.
+      </p>
+    </div>
+  </header>
+
+  <!-- Timeline instructions for mobile (shown only on small screens) -->
+  <p id="timeline-instructions" class="show-mobile" style="text-align: center;">
+    Scroll to view timeline | Hover over cards to learn more!
+  </p>
+
+  <!-- Timeline Cards Section -->
+  <!-- 
+    We wrap all the cards in a container with horizontal scrolling.
+    This lets us use scroll snap so each card "snaps" into place as you scroll.
+  -->
+  <section 
+    class="timeline-container"
+    style="
+      display: flex; /* Arrange cards in a row */
+      overflow-x: auto; /* Enable horizontal scrolling */
+      scroll-snap-type: x mandatory; /* Enable scroll snap on x-axis */
+      gap: 12px; /* Less space between cards */
+      padding: 18px 0 18px 24px; /* Less padding above, below, and left */
+      justify-content: flex-start; /* Start cards at the left */
+      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
+    "
+  >
+    <!-- Card 1: 1968 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>1968</h2>
+        <h3>Intel Founded</h3>
+        <img src="img/1.png" alt="Placeholder Image" />
+        <p>
+          Robert Noyce and Gordon Moore rename the newly formed company 
+          NM Electronics to Intel Corporation, laying the foundation for 
+          decades of technological innovation.
+        </p>
+      </div>
+      <!-- Overlay text shown on hover -->
+      <div class="overlay">
+        Intel is founded, starting a journey of innovation.
+      </div>
+    </div>
+
+    <!-- Card 2: 1971 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>1971</h2>
+        <h3>First Microprocessor</h3>
+        <img src="img/2.png" alt="Placeholder Image" />
+        <p>
+          Intel debuts the 4004, the world's first commercial microprocessor, 
+          igniting the microprocessor revolution and propelling the future 
+          of computing devices.
+        </p>
+      </div>
+      <div class="overlay">
+        The 4004 microprocessor changes computing forever.
+      </div>
+    </div>
+
+    <!-- Card 3: 1978 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>1978</h2>
+        <h3>8086 Processor</h3>
+        <img src="img/3.png" alt="Placeholder Image" />
+        <p>
+          Launch of the 8086 processor, establishing the x86 architecture 
+          that drives countless PCs and servers in the modern era.
+        </p>
+      </div>
+      <div class="overlay">
+        The 8086 processor launches the x86 era.
+      </div>
+    </div>
+
+    <!-- Card 4: 1985 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>1985</h2>
+        <h3>386 Processor</h3>
+        <img src="img/4.png" alt="Placeholder Image" />
+        <p>
+          Intel introduces the 386 processor with 32-bit architecture, 
+          ushering in a new era of performance and multitasking for 
+          personal computers.
+        </p>
+      </div>
+      <div class="overlay">
+        The 386 brings 32-bit power to PCs.
+      </div>
+    </div>
+
+    <!-- Card 5: 2006 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>2006</h2>
+        <h3>Peak GHG Emissions</h3>
+        <img src="img/5.png" alt="Placeholder Image" />
+        <p>
+          This year marks Intel's highest annual greenhouse gas emissions 
+          for operations. Over subsequent years, Intel invests heavily in 
+          chemical abatement, renewable energy, and energy-efficient 
+          manufacturing to reverse this trend.
+        </p>
+      </div>
+      <div class="overlay">
+        Intel begins major sustainability efforts after peak emissions.
+      </div>
+    </div>
+
+    <!-- Card 6: 2020 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>2020</h2>
+        <h3>RISE Strategy</h3>
+        <img src="img/6.png" alt="Placeholder Image" />
+        <p>
+          Intel launches its RISE (Responsible, Inclusive, Sustainable, 
+          Enabling) strategy and 2030 goals, aiming to drive industry-wide 
+          progress on climate action, water stewardship, and waste reduction.
+        </p>
+      </div>
+      <div class="overlay">
+        RISE strategy sets bold goals for 2030.
+      </div>
+    </div>
+
+    <!-- Card 7: 2022 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>2022</h2>
+        <h3>Net-Zero By 2040</h3>
+        <img src="img/7.png" alt="Placeholder Image" />
+        <p>
+          Intel announces its commitment to achieve net-zero greenhouse 
+          gas emissions (Scope 1 and 2) across its global operations 
+          by 2040, building on years of environmental initiatives.
+        </p>
+      </div>
+      <div class="overlay">
+        Intel commits to net-zero emissions by 2040.
+      </div>
+    </div>
+
+    <!-- Card 8: 2023 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>2023</h2>
+        <h3>Renewable Electricity</h3>
+        <img src="img/8.png" alt="Placeholder Image" />
+        <p>
+          The company achieves 99% renewable electricity usage worldwide, 
+          helping to drastically lower carbon emissions and driving progress 
+          toward Intel's long-term sustainability goals.
+        </p>
+      </div>
+      <div class="overlay">
+        99% renewable electricity milestone reached.
+      </div>
+    </div>
+
+    <!-- Card 9: 2024 -->
+    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
+      <div class="card-content">
+        <h2>2024</h2>
+        <h3>Sustainability Summit</h3>
+        <img src="img/9.png" alt="Placeholder Image" />
+        <p>
+          Intel hosts its first Sustainability Summit, uniting suppliers, 
+          government officials, and industry leaders to collaborate on 
+          next-generation sustainable semiconductor manufacturing.
+        </p>
+      </div>
+      <div class="overlay">
+        First Sustainability Summit brings leaders together.
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline instructions for desktop (shown only on large screens) -->
+  <p class="show-desktop" style="text-align: center;">
+    Scroll to view timeline | Hover over cards to learn more!
+  </p>
+
+  <!-- Footer section starts here -->
+  <footer style="text-align: center; padding: 10px 0 8px 0; color: #555;">
+    <!-- This is the footer. You can put copyright or other info here. -->
+    &copy; 2025 Intel Sustainability Timeline. For learning purposes only.
+  </footer>
+</body>
+</html>
