@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intel: Sustainability Through the Ages</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- 
+    Use Bootstrap RTL CSS for right-to-left language support.
+    This makes the grid and all Bootstrap components adjust for RTL automatically.
+  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.rtl.min.css" integrity="sha384-MdqCcafa5BLgxBDJ3d/4D292geNL64JyRtSGjEszRUQX9rhL1QkcnId+OT7Yw+D+" crossorigin="anonymous">
   <style>
     /* Show on small screens, hide on large screens */
     .show-mobile {
@@ -89,12 +94,7 @@
     .timeline-container {
       /* Match timeline background to the new darker fade */
       background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      gap: 12px; /* Less space between cards */
-      padding: 18px 0 18px 24px; /* Less padding above, below, and left */
-      justify-content: flex-start;
+      padding: 18px 0;
     }
     /* On small screens, stack cards in a column and center them */
     @media (max-width: 600px) {
@@ -147,10 +147,26 @@
       opacity: 0; /* Hidden by default */
       border-radius: 18px;
       transition: opacity 0.3s; /* Smooth opacity transition */
+      pointer-events: none; /* Prevent overlay from blocking hover */
     }
-    .card:hover .overlay {
-      opacity: 1; /* Show overlay on hover */
+    /* 
+      Only show the overlay for the card that is being hovered.
+      This selector means: when you hover over a card, only show the overlay inside that card.
+      If you see all overlays showing at once, make sure there is no :hover on the parent container.
+    */
+    /* .card:hover .overlay {
+      opacity: 1; 
+      pointer-events: auto;
+    } */
+    /* 
+      We use JavaScript to add the 'show-overlay' class to only the card being hovered.
+      This way, only one overlay is shown at a time.
+    */
+    .card.show-overlay .overlay {
+      opacity: 1;
+      pointer-events: auto;
     }
+  
     .card-content {
       /* 
         This overlay keeps text readable on the gradient.
@@ -224,192 +240,334 @@
     </div>
   </header>
 
-  <!-- Timeline instructions for mobile (shown only on small screens) -->
-  <p id="timeline-instructions" class="show-mobile" style="text-align: center;">
+  <!-- Timeline instructions (now always shown at the top, before the cards) -->
+  <p id="timeline-instructions" style="text-align: center; margin-top: 18px;">
     Scroll to view timeline | Hover over cards to learn more!
   </p>
 
-  <!-- Timeline Cards Section -->
+  <!-- Timeline Cards Section using Bootstrap grid -->
   <!-- 
-    We wrap all the cards in a container with horizontal scrolling.
-    This lets us use scroll snap so each card "snaps" into place as you scroll.
+    We use Bootstrap's container and row to organize cards.
+    - col-12: full width on small screens (stacked)
+    - col-md-6: two per row on medium screens
+    - col-lg-4: three per row on large screens
   -->
-  <section 
-    class="timeline-container"
-    style="
-      display: flex; /* Arrange cards in a row */
-      overflow-x: auto; /* Enable horizontal scrolling */
-      scroll-snap-type: x mandatory; /* Enable scroll snap on x-axis */
-      gap: 12px; /* Less space between cards */
-      padding: 18px 0 18px 24px; /* Less padding above, below, and left */
-      justify-content: flex-start; /* Start cards at the left */
-      background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%);
-    "
-  >
-    <!-- Card 1: 1968 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>1968</h2>
-        <h3>Intel Founded</h3>
-        <img src="img/1.png" alt="Placeholder Image" />
-        <p>
-          Robert Noyce and Gordon Moore rename the newly formed company 
-          NM Electronics to Intel Corporation, laying the foundation for 
-          decades of technological innovation.
-        </p>
-      </div>
-      <!-- Overlay text shown on hover -->
-      <div class="overlay">
-        Intel is founded, starting a journey of innovation.
-      </div>
-    </div>
-
-    <!-- Card 2: 1971 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>1971</h2>
-        <h3>First Microprocessor</h3>
-        <img src="img/2.png" alt="Placeholder Image" />
-        <p>
-          Intel debuts the 4004, the world's first commercial microprocessor, 
-          igniting the microprocessor revolution and propelling the future 
-          of computing devices.
-        </p>
-      </div>
-      <div class="overlay">
-        The 4004 microprocessor changes computing forever.
-      </div>
-    </div>
-
-    <!-- Card 3: 1978 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>1978</h2>
-        <h3>8086 Processor</h3>
-        <img src="img/3.png" alt="Placeholder Image" />
-        <p>
-          Launch of the 8086 processor, establishing the x86 architecture 
-          that drives countless PCs and servers in the modern era.
-        </p>
-      </div>
-      <div class="overlay">
-        The 8086 processor launches the x86 era.
-      </div>
-    </div>
-
-    <!-- Card 4: 1985 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>1985</h2>
-        <h3>386 Processor</h3>
-        <img src="img/4.png" alt="Placeholder Image" />
-        <p>
-          Intel introduces the 386 processor with 32-bit architecture, 
-          ushering in a new era of performance and multitasking for 
-          personal computers.
-        </p>
-      </div>
-      <div class="overlay">
-        The 386 brings 32-bit power to PCs.
-      </div>
-    </div>
-
-    <!-- Card 5: 2006 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>2006</h2>
-        <h3>Peak GHG Emissions</h3>
-        <img src="img/5.png" alt="Placeholder Image" />
-        <p>
-          This year marks Intel's highest annual greenhouse gas emissions 
-          for operations. Over subsequent years, Intel invests heavily in 
-          chemical abatement, renewable energy, and energy-efficient 
-          manufacturing to reverse this trend.
-        </p>
-      </div>
-      <div class="overlay">
-        Intel begins major sustainability efforts after peak emissions.
-      </div>
-    </div>
-
-    <!-- Card 6: 2020 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>2020</h2>
-        <h3>RISE Strategy</h3>
-        <img src="img/6.png" alt="Placeholder Image" />
-        <p>
-          Intel launches its RISE (Responsible, Inclusive, Sustainable, 
-          Enabling) strategy and 2030 goals, aiming to drive industry-wide 
-          progress on climate action, water stewardship, and waste reduction.
-        </p>
-      </div>
-      <div class="overlay">
-        RISE strategy sets bold goals for 2030.
-      </div>
-    </div>
-
-    <!-- Card 7: 2022 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>2022</h2>
-        <h3>Net-Zero By 2040</h3>
-        <img src="img/7.png" alt="Placeholder Image" />
-        <p>
-          Intel announces its commitment to achieve net-zero greenhouse 
-          gas emissions (Scope 1 and 2) across its global operations 
-          by 2040, building on years of environmental initiatives.
-        </p>
-      </div>
-      <div class="overlay">
-        Intel commits to net-zero emissions by 2040.
-      </div>
-    </div>
-
-    <!-- Card 8: 2023 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>2023</h2>
-        <h3>Renewable Electricity</h3>
-        <img src="img/8.png" alt="Placeholder Image" />
-        <p>
-          The company achieves 99% renewable electricity usage worldwide, 
-          helping to drastically lower carbon emissions and driving progress 
-          toward Intel's long-term sustainability goals.
-        </p>
-      </div>
-      <div class="overlay">
-        99% renewable electricity milestone reached.
-      </div>
-    </div>
-
-    <!-- Card 9: 2024 -->
-    <div class="card" style="scroll-snap-align: center; min-width: 350px;">
-      <div class="card-content">
-        <h2>2024</h2>
-        <h3>Sustainability Summit</h3>
-        <img src="img/9.png" alt="Placeholder Image" />
-        <p>
-          Intel hosts its first Sustainability Summit, uniting suppliers, 
-          government officials, and industry leaders to collaborate on 
-          next-generation sustainable semiconductor manufacturing.
-        </p>
-      </div>
-      <div class="overlay">
-        First Sustainability Summit brings leaders together.
+  <section class="timeline-container" style="background: linear-gradient(90deg, #d1d5db 0%, #6b7280 100%); padding: 18px 0;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <!-- Card 1: 1968 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <!-- 
+            We add the Bootstrap 'shadow' and 'bg-white' classes to give each card its own box.
+            The 'p-0' class removes extra padding from the card container.
+          -->
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>1968</h2>
+              <h3>Intel Founded</h3>
+              <img src="img/1.png" alt="Placeholder Image" />
+              <p>
+                Robert Noyce and Gordon Moore rename the newly formed company 
+                NM Electronics to Intel Corporation, laying the foundation for 
+                decades of technological innovation.
+              </p>
+            </div>
+            <div class="overlay">
+              Intel is founded, starting a journey of innovation.
+            </div>
+          </div>
+        </div>
+        <!-- Card 2: 1971 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>1971</h2>
+              <h3>First Microprocessor</h3>
+              <img src="img/2.png" alt="Placeholder Image" />
+              <p>
+                Intel debuts the 4004, the world's first commercial microprocessor, 
+                igniting the microprocessor revolution and propelling the future 
+                of computing devices.
+              </p>
+            </div>
+            <div class="overlay">
+              The 4004 microprocessor changes computing forever.
+            </div>
+          </div>
+        </div>
+        <!-- Card 3: 1978 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>1978</h2>
+              <h3>8086 Processor</h3>
+              <img src="img/3.png" alt="Placeholder Image" />
+              <p>
+                Launch of the 8086 processor, establishing the x86 architecture 
+                that drives countless PCs and servers in the modern era.
+              </p>
+            </div>
+            <div class="overlay">
+              The 8086 processor launches the x86 era.
+            </div>
+          </div>
+        </div>
+        <!-- Card 4: 1985 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>1985</h2>
+              <h3>386 Processor</h3>
+              <img src="img/4.png" alt="Placeholder Image" />
+              <p>
+                Intel introduces the 386 processor with 32-bit architecture, 
+                ushering in a new era of performance and multitasking for 
+                personal computers.
+              </p>
+            </div>
+            <div class="overlay">
+              The 386 brings 32-bit power to PCs.
+            </div>
+          </div>
+        </div>
+        <!-- Card 5: 2006 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>2006</h2>
+              <h3>Peak GHG Emissions</h3>
+              <img src="img/5.png" alt="Placeholder Image" />
+              <p>
+                This year marks Intel's highest annual greenhouse gas emissions 
+                for operations. Over subsequent years, Intel invests heavily in 
+                chemical abatement, renewable energy, and energy-efficient 
+                manufacturing to reverse this trend.
+              </p>
+            </div>
+            <div class="overlay">
+              Intel begins major sustainability efforts after peak emissions.
+            </div>
+          </div>
+        </div>
+        <!-- Card 6: 2020 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>2020</h2>
+              <h3>RISE Strategy</h3>
+              <img src="img/6.png" alt="Placeholder Image" />
+              <p>
+                Intel launches its RISE (Responsible, Inclusive, Sustainable, 
+                Enabling) strategy and 2030 goals, aiming to drive industry-wide 
+                progress on climate action, water stewardship, and waste reduction.
+              </p>
+            </div>
+            <div class="overlay">
+              RISE strategy sets bold goals for 2030.
+            </div>
+          </div>
+        </div>
+        <!-- Card 7: 2022 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>2022</h2>
+              <h3>Net-Zero By 2040</h3>
+              <img src="img/7.png" alt="Placeholder Image" />
+              <p>
+                Intel announces its commitment to achieve net-zero greenhouse 
+                gas emissions (Scope 1 and 2) across its global operations 
+                by 2040, building on years of environmental initiatives.
+              </p>
+            </div>
+            <div class="overlay">
+              Intel commits to net-zero emissions by 2040.
+            </div>
+          </div>
+        </div>
+        <!-- Card 8: 2023 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>2023</h2>
+              <h3>Renewable Electricity</h3>
+              <img src="img/8.png" alt="Placeholder Image" />
+              <p>
+                The company achieves 99% renewable electricity usage worldwide, 
+                helping to drastically lower carbon emissions and driving progress 
+                toward Intel's long-term sustainability goals.
+              </p>
+            </div>
+            <div class="overlay">
+              99% renewable electricity milestone reached.
+            </div>
+          </div>
+        </div>
+        <!-- Card 9: 2024 -->
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+          <div class="card shadow bg-white p-0" style="min-width: 0; border-radius: 18px; position: relative;">
+            <!-- Card content starts here -->
+            <div class="card-content">
+              <h2>2024</h2>
+              <h3>Sustainability Summit</h3>
+              <img src="img/9.png" alt="Placeholder Image" />
+              <p>
+                Intel hosts its first Sustainability Summit, uniting suppliers, 
+                government officials, and industry leaders to collaborate on 
+                next-generation sustainable semiconductor manufacturing.
+              </p>
+            </div>
+            <div class="overlay">
+              First Sustainability Summit brings leaders together.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Timeline instructions for desktop (shown only on large screens) -->
-  <p class="show-desktop" style="text-align: center;">
-    Scroll to view timeline | Hover over cards to learn more!
-  </p>
+  <!-- 
+    Newsletter Subscription Form (Bootstrap)
+    This form lets users subscribe to Intel's sustainability newsletter.
+  -->
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <!-- Bootstrap card for a nice look -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title mb-3" style="text-align:center;">Subscribe to our Sustainability Newsletter</h4>
+            <!-- Newsletter form starts here -->
+            <form>
+              <!-- Name field -->
+              <div class="mb-3">
+                <label for="newsletterName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="newsletterName" placeholder="Enter your name">
+              </div>
+              <!-- Email field -->
+              <div class="mb-3">
+                <label for="newsletterEmail" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="newsletterEmail" placeholder="Enter your email">
+              </div>
+              <!-- Subscribe button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+              </div>
+            </form>
+            <!-- Newsletter form ends here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer section starts here -->
   <footer style="text-align: center; padding: 10px 0 8px 0; color: #555;">
     <!-- This is the footer. You can put copyright or other info here. -->
-    &copy; 2025 Intel Sustainability Timeline. For learning purposes only.
+    &copy; 2025 Intel Sustainability Timeline.
   </footer>
+
+  <!-- 
+    JavaScript to show overlay only on the card being hovered.
+    This is beginner-friendly and uses simple code and comments.
+  -->
+  <script>
+    // Get all the card elements
+    var cards = document.querySelectorAll('.card');
+    // Loop through each card
+    cards.forEach(function(card) {
+      // When the mouse enters the card, add the 'show-overlay' class
+      card.addEventListener('mouseenter', function() {
+        // Remove 'show-overlay' from all cards first
+        cards.forEach(function(c) {
+          c.classList.remove('show-overlay');
+        });
+        // Add 'show-overlay' to the hovered card
+        card.classList.add('show-overlay');
+      });
+      // When the mouse leaves the card, remove the 'show-overlay' class
+      card.addEventListener('mouseleave', function() {
+        card.classList.remove('show-overlay');
+      });
+    });
+
+    // List of RTL language codes
+    var rtlLangs = [
+      'ar', // Arabic
+      'he', // Hebrew
+      'fa', // Persian
+      'ur', // Urdu
+      'ps', // Pashto
+      'dv', // Divehi
+      'ku', // Kurdish
+      'yi', // Yiddish
+      'ug', // Uyghur
+      'sd', // Sindhi
+      'pa-Arab', // Punjabi (Arabic script)
+      'ks' // Kashmiri
+    ];
+
+    // Function to check if a language code is RTL
+    function isRtlLang(lang) {
+      // Some language codes may include region, e.g., "ar-SA"
+      lang = lang.toLowerCase();
+      return rtlLangs.some(function(rtl) {
+        return lang === rtl || lang.startsWith(rtl + '-');
+      });
+    }
+
+    // Function to update RTL/LTR mode based on current language
+    function updateRtlMode() {
+      // Get the <html> element
+      var html = document.documentElement;
+      // Get the current language (from lang attribute or default)
+      var lang = html.getAttribute('lang') || 'en';
+      // If Google Translate is used, it may set a class like "translated-ltr" or "translated-rtl"
+      // Try to detect the language from the Google Translate element if available
+      var gtLang = null;
+      var gtFrame = document.querySelector('iframe.goog-te-banner-frame');
+      if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+        // Try to get the language from the cookie or element
+        var m = document.cookie.match(/googtrans=\/[a-zA-Z-]+\/([a-zA-Z-]+)/);
+        if (m && m[1]) {
+          gtLang = m[1];
+        }
+      }
+      // Use Google Translate language if available
+      if (gtLang) {
+        lang = gtLang;
+      }
+      // Set dir attribute based on language
+      if (isRtlLang(lang)) {
+        html.setAttribute('dir', 'rtl');
+      } else {
+        html.setAttribute('dir', 'ltr');
+      }
+    }
+
+    // Run on page load
+    updateRtlMode();
+
+    // Observe changes to <html> lang attribute (Google Translate may change it)
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.attributeName === 'lang') {
+          updateRtlMode();
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Also check periodically in case Google Translate changes language without updating lang attribute
+    setInterval(updateRtlMode, 1000);
+  </script>
 </body>
 </html>
